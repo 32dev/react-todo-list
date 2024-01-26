@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- Load Babel -->
+    <!-- Your custom script here -->
+    <script type="text/babel">
+        const { useState } = React;
+        const TodoList = () => {
+            const [todos, setTodos] = useState(['task1', 'task2']);
+            const [task, setTask] = useState('');
+            const handleInputChange = (event) => {
+                setTask(event.target.value);
+            }
+            const addTodo = () => {
+                if (task.trim() !== '') {
+                    setTodos([...todos, task])
+                    setTask('');
+                }
+            }
+            const removeTodo = (index) => {
+                const newTodos = [...todos];
+                newTodos.splice(index, 1);
+                setTodos(newTodos);
+            }
+            return (
+                <div>
+                    <h1>Todo List</h1>
+                    <div>
+                        <input type='text' value={task} onChange={handleInputChange} />
+                        <button onClick={addTodo}>Add Task</button>
+                    </div>
+                    <ul>
+                        {
+                            todos.map((todo, index) => (
+                                <li key={index}>
+                                    {todo}
+                                    <button onClick={() => removeTodo(index)}>Remove</button>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            )
+        }
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<TodoList />);
+    </script>
+</body>
+
+</html>
